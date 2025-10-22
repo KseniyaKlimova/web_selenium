@@ -13,6 +13,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class RequestForACardTest {
@@ -100,6 +101,19 @@ public class RequestForACardTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldSendARequestSuccessful() {
+        List<WebElement> elements = driver.findElements(By.className("input__control"));
+        elements.get(0).sendKeys("Иван Петров");
+        elements.get(1).sendKeys("+79101234567");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.className("button")).click();
+        WebElement actualElement = driver.findElement(By.cssSelector("[data-test-id=order-success]"));
+        String actualText = actualElement.getText().trim();
+        assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", actualText);
+        assertTrue(actualElement.isDisplayed());
+
+    }
+
 }
-
-
