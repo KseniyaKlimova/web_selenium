@@ -4,13 +4,10 @@ import org.junit.jupiter.api.*;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +39,7 @@ public class RequestForACardTest {
 
     @Test
     void shouldSendARequestWithoutName() { // В заявке отсутствует имя
-        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+7101234567");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79101234567");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button")).click();
 
@@ -66,9 +63,8 @@ public class RequestForACardTest {
 
     @Test
     void shouldSendARequestWithInvalidName() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Ivan Petrov"); // Имя латиницей
-        elements.get(1).sendKeys("+79101234567");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Ivan Petrov");  // имя латиницей
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79101234567");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button")).click();
 
@@ -92,8 +88,8 @@ public class RequestForACardTest {
 
     @Test
     void shouldSendARequestWithoutCheckbox() { // В заявке не проставлен чек-бокс
-        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Смит Джон");
-        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79651234567");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иван Петров");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79101234567");
         driver.findElement(By.className("button")).click();
 
         String expected = "Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй";
@@ -104,9 +100,8 @@ public class RequestForACardTest {
 
     @Test
     void shouldSendARequestSuccessful() {
-        List<WebElement> elements = driver.findElements(By.className("input__control"));
-        elements.get(0).sendKeys("Иван Петров");
-        elements.get(1).sendKeys("+79101234567");
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иван Петров");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79101234567");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button")).click();
         WebElement actualElement = driver.findElement(By.cssSelector("[data-test-id=order-success]"));
